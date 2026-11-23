@@ -232,10 +232,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--g);background:#fff;bo
 
 <main>
   <div class="card" id="card">
-    <div class="offer">
-      <div class="badge">50</div>
+    <div class="offer" id="offer">
+      <div class="badge" id="seatBadge">50</div>
       <div><b>عرض التاجر المؤسس: 0% عمولة لمدة 6 أشهر</b>
-        <small>لأول 50 تاجرًا فقط، ثم 5% للأشهر 7 إلى 12، ثم العمولة العادية 10%.</small></div>
+        <small>لأول 50 تاجرًا فقط، ثم 5% للأشهر 7 إلى 12، ثم العمولة العادية 10%.</small>
+        <small id="seatLeft" style="font-weight:700;color:#7a5d00" hidden></small></div>
     </div>
 
     <ol class="steps" id="steps">
@@ -490,6 +491,13 @@ window.addEventListener('resize', sizeSig);
 function sigPng(){ // trimmed PNG on white
   const c = document.createElement('canvas'); c.width = sig.width; c.height = sig.height; const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(sig, 0, 0); return c.toDataURL('image/png').split(',')[1]; }
 $('#yr').textContent = new Date().getFullYear();
+// founding seats left
+if (SCRIPT_URL) fetch(SCRIPT_URL + '?seats=1').then(r => r.json()).then(j => {
+  if (!j || !j.ok || typeof j.seats !== 'number') return;
+  if (j.seats <= 0) { $('#offer').hidden = true; return; }
+  $('#seatBadge').textContent = j.seats;
+  $('#seatLeft').textContent = 'متبقي ' + j.seats + ' مقعد من ' + j.total; $('#seatLeft').hidden = false;
+}).catch(() => {});
 // min date for CR expiry = today
 $('#cr_exp').min = new Date().toISOString().slice(0,10);
 
