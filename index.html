@@ -48,7 +48,7 @@ main{max-width:760px;margin:-80px auto 0;padding:0 16px 40px;position:relative;z
 /* stepper */
 .steps{display:flex;gap:6px;padding:20px 22px 6px;list-style:none;margin:0}
 .steps li{flex:1;text-align:center;font-size:12.5px;color:var(--muted);position:relative}
-.steps li .dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:#fff;display:grid;place-items:center;margin:0 auto 6px;font-weight:600;color:var(--muted);transition:.25s}
+.steps li .dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;line-height:1;font-feature-settings:'tnum';margin:0 auto 6px;font-weight:600;color:var(--muted);transition:.25s}
 .steps li.on .dot{border-color:var(--g);background:var(--g);color:#fff;box-shadow:0 0 0 5px var(--g-soft)}
 .steps li.done .dot{border-color:var(--g);background:var(--g-soft);color:var(--g)}
 .steps li.on,.steps li.done{color:var(--g-dark);font-weight:600}
@@ -63,7 +63,7 @@ legend{font-size:20px;font-weight:700;color:var(--g-deep);margin:18px 0 2px;padd
 .sub{color:var(--muted);font-size:14px;margin:0 0 18px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
 .full{grid-column:1/-1}
-@media (max-width:620px){.grid{grid-template-columns:1fr}.steps li span.t{display:none}}
+@media (max-width:620px){.grid{grid-template-columns:1fr}.radios{grid-template-columns:1fr 1fr!important}.radio span{padding:10px 12px}.steps li span.t{display:none}}
 
 label.f{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
 label.f .req{color:var(--err);margin-inline-start:3px}
@@ -84,6 +84,19 @@ input:focus,select:focus,textarea:focus{border-color:var(--g);background:#fff;bo
 .phone input:focus{box-shadow:none}
 .phone:focus-within{border-color:var(--g);box-shadow:0 0 0 4px var(--g-soft)}
 
+/* section bars */
+.sec{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--g) 0%,var(--g-dark) 100%);color:#fff;border-radius:12px;padding:11px 16px;margin:14px 0 2px;box-shadow:0 4px 14px rgba(0,148,68,.18);position:relative;overflow:hidden}
+.sec::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.10' stroke-width='1'%3E%3Crect x='13' y='13' width='14' height='14'/%3E%3Crect x='13' y='13' width='14' height='14' transform='rotate(45 20 20)'/%3E%3C/g%3E%3C/svg%3E");background-position:left center;pointer-events:none}
+.sec-ic{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.sec-t{font-size:16.5px;font-weight:700;line-height:1.3}
+.sec-t small{display:block;font-size:12px;font-weight:500;opacity:.85;direction:ltr;text-align:right}
+.grid > .sec:first-child{margin-top:0}
+.other{margin-top:10px}
+.other input{background:#fff;border-color:var(--g-line)}
+.other .msg{display:none}
+.other.bad input{border-color:var(--err)}
+.other.bad .msg{display:block}
+.fld:has(.other.bad) > .msg{display:none}
 /* chips & radios */
 .chips{display:flex;flex-wrap:wrap;gap:8px;border:1.5px solid transparent;border-radius:12px}
 .chip{position:relative}
@@ -92,11 +105,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--g);background:#fff;bo
 .chip span:hover{border-color:var(--g-line)}
 .chip input:checked+span{background:var(--g);border-color:var(--g);color:#fff}
 .chip input:focus-visible+span{box-shadow:0 0 0 4px var(--g-soft)}
-.radios{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;border:1.5px solid transparent;border-radius:12px}
+.radios{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;border:1.5px solid transparent;border-radius:12px}
 .radio{position:relative}
 .radio input{position:absolute;opacity:0}
 .radio span{display:block;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;background:#fff;font-size:14.5px;transition:.15s}
-.radio span b{display:block;font-size:15px}
+.radio span b{display:block;font-size:15px;color:var(--ink)}
+.radio span{color:var(--muted);font-size:13px;height:100%}
 .radio input:checked+span{border-color:var(--g);background:var(--g-soft);box-shadow:inset 0 0 0 1px var(--g)}
 .radio input:focus-visible+span{box-shadow:0 0 0 4px var(--g-soft)}
 
@@ -174,8 +188,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--g);background:#fff;bo
 .ref b{font-size:22px;letter-spacing:1.5px;direction:ltr;color:var(--g-dark)}
 .next{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:30px 0 8px;text-align:right}
 @media (max-width:620px){.next{grid-template-columns:1fr}}
-.next div{border:1.5px solid var(--line);border-radius:14px;padding:16px}
-.next .n{width:30px;height:30px;border-radius:50%;background:var(--g);color:#fff;display:block;text-align:center;line-height:31px;font-weight:700;font-size:14px;margin-bottom:8px}
+.next > div{border:1.5px solid var(--line);border-radius:14px;padding:18px 16px;background:linear-gradient(180deg,#fff,#fafdfb)}
+.next .n{width:44px;height:44px;border-radius:12px;background:var(--g-soft);color:var(--g);display:flex;align-items:center;justify-content:center;margin-bottom:10px;position:relative}
+.next .n i{position:absolute;top:-7px;left:-7px;width:22px;height:22px;border-radius:50%;background:var(--g);color:#fff;font-style:normal;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;border:2px solid #fff}
 .next b{display:block;font-size:15px}
 .next span{font-size:13.5px;color:var(--muted)}
 .thanks-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
@@ -222,180 +237,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--g);background:#fff;bo
     <form id="f" novalidate>
       <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
-      <!-- STEP 1 -->
-      <fieldset class="on" data-step="1">
-        <legend>بيانات النشاط التجاري <span class="en">Business details</span></legend>
-        <p class="sub">كما هي مسجلة في السجل التجاري.</p>
-        <div class="grid">
-          <div class="fld full">
-            <label class="f" for="biz_ar">الاسم التجاري بالعربي<span class="req">*</span><span class="en">Trade name (Arabic)</span></label>
-            <input id="biz_ar" name="biz_ar" type="text" required placeholder="مثال: مؤسسة لبان ظفار للتجارة">
-            <div class="msg">اكتب الاسم التجاري</div>
-          </div>
-          <div class="fld full">
-            <label class="f" for="biz_en">الاسم التجاري بالإنجليزي<span class="en">Trade name (English)</span></label>
-            <input id="biz_en" name="biz_en" type="text" class="ltr" placeholder="e.g. Dhofar Frankincense Trading">
-          </div>
-          <div class="fld">
-            <label class="f" for="cr">رقم السجل التجاري<span class="req">*</span><span class="en">CR number</span></label>
-            <input id="cr" name="cr" type="text" inputmode="numeric" class="ltr" required pattern="[0-9]{5,12}" placeholder="1234567">
-            <div class="msg">رقم السجل أرقام فقط (5 إلى 12 رقم)</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="cr_exp">تاريخ انتهاء السجل<span class="req">*</span><span class="en">CR expiry</span></label>
-            <input id="cr_exp" name="cr_exp" type="date" required>
-            <div class="msg">السجل لازم يكون ساري</div>
-          </div>
-          <div class="fld full">
-            <label class="f">نوع النشاط<span class="req">*</span><span class="en">Business type</span></label>
-            <div class="radios" data-group="biz_type">
-              <label class="radio"><input type="radio" name="biz_type" value="مؤسسة فردية" required><span><b>مؤسسة فردية</b>Sole establishment</span></label>
-              <label class="radio"><input type="radio" name="biz_type" value="شركة"><span><b>شركة</b>Company</span></label>
-              <label class="radio"><input type="radio" name="biz_type" value="مصنع"><span><b>مصنع</b>Factory</span></label>
-              <label class="radio"><input type="radio" name="biz_type" value="أسرة منتجة"><span><b>أسرة منتجة</b>Home business</span></label>
-            </div>
-            <div class="msg">اختر نوع النشاط</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="gov">المحافظة<span class="req">*</span><span class="en">Governorate</span></label>
-            <select id="gov" name="gov" required>
-              <option value="">اختر المحافظة</option>
-              <option>ظفار</option><option>مسقط</option><option>شمال الباطنة</option><option>جنوب الباطنة</option>
-              <option>الداخلية</option><option>الظاهرة</option><option>البريمي</option><option>شمال الشرقية</option>
-              <option>جنوب الشرقية</option><option>الوسطى</option><option>مسندم</option>
-            </select>
-            <div class="msg">اختر المحافظة</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="wilaya">الولاية<span class="req">*</span><span class="en">Wilayat</span></label>
-            <input id="wilaya" name="wilaya" type="text" required placeholder="مثال: صلالة">
-            <div class="msg">اكتب الولاية</div>
-          </div>
-          <div class="fld full">
-            <label class="f" for="location">موقع استلام الطلبات<span class="en">Pickup location (Google Maps link)</span></label>
-            <input id="location" name="location" type="url" class="ltr" placeholder="https://maps.app.goo.gl/...">
-            <div class="hint">المكان اللي بيستلم منه مندوب التوصيل الطلبات. تقدر تنسخ الرابط من خرائط جوجل.</div>
-            <div class="msg">الرابط غير صحيح</div>
-          </div>
-        </div>
-      </fieldset>
-
-      <!-- STEP 2 -->
-      <fieldset data-step="2">
-        <legend>المسؤول وبيانات التواصل <span class="en">Contact person</span></legend>
-        <p class="sub">الشخص المفوض اللي بنتواصل معه بخصوص الانضمام والعقد.</p>
-        <div class="grid">
-          <div class="fld">
-            <label class="f" for="name">الاسم الكامل<span class="req">*</span><span class="en">Full name</span></label>
-            <input id="name" name="name" type="text" required autocomplete="name">
-            <div class="msg">اكتب الاسم الكامل</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="role">الصفة<span class="req">*</span><span class="en">Position</span></label>
-            <select id="role" name="role" required>
-              <option value="">اختر الصفة</option>
-              <option>المالك</option><option>شريك</option><option>مدير عام</option><option>مفوض بالتوقيع</option><option>موظف</option>
-            </select>
-            <div class="msg">اختر الصفة</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="mobile">رقم الجوال<span class="req">*</span><span class="en">Mobile</span></label>
-            <div class="phone"><span>+968</span><input id="mobile" name="mobile" type="tel" inputmode="numeric" required pattern="[279][0-9]{7}" maxlength="8" placeholder="9XXXXXXX" autocomplete="tel-national"></div>
-            <div class="msg">رقم عماني من 8 أرقام</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="whatsapp">رقم الواتساب<span class="en">WhatsApp</span></label>
-            <div class="phone"><span>+968</span><input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" pattern="[279][0-9]{7}" maxlength="8" placeholder="نفس رقم الجوال"></div>
-            <div class="msg">رقم عماني من 8 أرقام</div>
-          </div>
-          <div class="fld full">
-            <label class="f" for="email">البريد الإلكتروني<span class="req">*</span><span class="en">Email</span></label>
-            <input id="email" name="email" type="email" class="ltr" required autocomplete="email" placeholder="name@company.om">
-            <div class="hint">بنرسل لك عليه تأكيد التسجيل ونسخة من العقد.</div>
-            <div class="msg">البريد الإلكتروني غير صحيح</div>
-          </div>
-        </div>
-      </fieldset>
-
-      <!-- STEP 3 -->
-      <fieldset data-step="3">
-        <legend>المنتجات والهوية <span class="en">Products & brand</span></legend>
-        <p class="sub">عشان نعرف نجهز لك القسم المناسب في مارناس.</p>
-        <div class="grid">
-          <div class="fld full">
-            <label class="f">نوع المنتجات<span class="req">*</span><span class="en">Categories (choose all that apply)</span></label>
-            <div class="chips" data-group="cats">
-              <label class="chip"><input type="checkbox" name="cats" value="أغذية ومنتجات محلية"><span>أغذية ومنتجات محلية</span></label>
-              <label class="chip"><input type="checkbox" name="cats" value="تمور وعسل"><span>تمور وعسل</span></label>
-              <label class="chip"><input type="checkbox" name="cats" value="لبان وبخور وعطور"><span>لبان وبخور وعطور</span></label>
-              <label class="chip"><input type="checkbox" name="cats" value="أزياء وملابس"><span>أزياء وملابس</span></label>
-              <label class="chip"><input type="checkbox" name="cats" value="عناية وتجميل"><span>عناية وتجميل</span></label>
-              <label class="chip"><input type="checkbox" name="cats" value="حرف يدوية وهدايا"><span>حرف يدوية وهدايا</span></label>
-              <label class="chip"><input type="checkbox" name="cats" value="منزل ومطبخ"><span>منزل ومطبخ</span></label>
-              <label class="chip"><input type="checkbox" name="cats" value="إلكترونيات"><span>إلكترونيات</span></label>
-              <label class="chip"><input type="checkbox" name="cats" value="أخرى"><span>أخرى</span></label>
-            </div>
-            <div class="msg">اختر نوع واحد على الأقل</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="count">عدد المنتجات تقريبًا<span class="req">*</span><span class="en">Number of products</span></label>
-            <select id="count" name="count" required>
-              <option value="">اختر</option><option>أقل من 10</option><option>10 إلى 50</option><option>51 إلى 200</option><option>أكثر من 200</option>
-            </select>
-            <div class="msg">اختر عدد المنتجات</div>
-          </div>
-          <div class="fld">
-            <label class="f">هل تبيع أونلاين حاليًا؟<span class="req">*</span><span class="en">Selling online now?</span></label>
-            <div class="radios" data-group="online" style="grid-template-columns:1fr 1fr">
-              <label class="radio"><input type="radio" name="online" value="نعم" required><span><b>نعم</b>Yes</span></label>
-              <label class="radio"><input type="radio" name="online" value="لا"><span><b>لا</b>No</span></label>
-            </div>
-            <div class="msg">اختر إجابة</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="instagram">حساب إنستقرام<span class="en">Instagram</span></label>
-            <input id="instagram" name="instagram" type="text" class="ltr" placeholder="@yourshop">
-          </div>
-          <div class="fld">
-            <label class="f" for="website_url">الموقع أو رابط آخر<span class="en">Website / other link</span></label>
-            <input id="website_url" name="website_url" type="url" class="ltr" placeholder="https://">
-            <div class="msg">الرابط غير صحيح</div>
-          </div>
-          <div class="fld full" data-file="logo" data-required="1">
-            <label class="f">شعار الشركة<span class="req">*</span><span class="en">Company logo (PNG, SVG, JPG or PDF)</span></label>
-            <label class="drop">
-              <div class="ic" data-thumb><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-              <div><b>ارفع الشعار بجودة عالية</b><div class="hint" style="margin:0">يفضّل PNG بخلفية شفافة أو SVG، ولا يقل عن 500×500 بكسل، وأقصى حجم 5 ميجا</div><div class="fn"></div></div>
-              <input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp,application/pdf,.svg,.ai,.eps">
-            </label>
-            <div class="msg">ارفع شعار الشركة بصيغة واضحة</div>
-          </div>
-          <div class="fld full" data-file="cr_file">
-            <label class="f">صورة السجل التجاري<span class="en">Commercial registration (optional, PDF or image, max 5 MB)</span></label>
-            <label class="drop">
-              <div class="ic" data-thumb><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
-              <div><b>ارفع الملف</b><div class="hint" style="margin:0">اختياري، يسرّع مراجعة طلبك</div><div class="fn"></div></div>
-              <input type="file" accept="application/pdf,image/*">
-            </label>
-            <div class="msg">الملف أكبر من 5 ميجا</div>
-          </div>
-          <div class="fld">
-            <label class="f" for="heard">كيف عرفت عن مارناس؟<span class="en">How did you hear about us?</span></label>
-            <select id="heard" name="heard">
-              <option value="">اختر</option><option>إنستقرام</option><option>تيك توك</option><option>سناب شات</option><option>واتساب</option><option>صديق أو تاجر آخر</option><option>تواصل معي فريق مارناس</option><option>أخرى</option>
-            </select>
-          </div>
-          <div class="fld full">
-            <label class="f" for="notes">ملاحظات أو أسئلة<span class="en">Notes</span></label>
-            <textarea id="notes" name="notes" placeholder="أي شي تحب تضيفه..."></textarea>
-          </div>
-        </div>
-      </fieldset>
+<fieldset class="on" data-step="1"><legend>بيانات المنشأة <span class="en">Business details</span></legend><p class="sub">اختر من الخيارات، والكتابة بس للأسماء والأرقام.</p><div class="grid"><div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M10 21v-4h4v4"/></svg></span><span class="sec-t">معلومات الشركة<small>Company information</small></span></div><div class="fld full"><label class="f" for="biz_ar">الاسم التجاري بالعربي<span class="req">*</span><span class="en">Trade name (Arabic)</span></label><input id="biz_ar" name="biz_ar" type="text" required placeholder="كما هو في السجل التجاري" ><div class="msg">اكتب الاسم التجاري</div></div><div class="fld full"><label class="f" for="biz_en">الاسم التجاري بالإنجليزي<span class="en">Trade name (English)</span></label><input id="biz_en" name="biz_en" type="text" class="ltr" placeholder="e.g. Dhofar Frankincense Trading" ><div class="msg">هذا الحقل مطلوب</div></div><div class="fld"><label class="f" for="cr">رقم السجل التجاري<span class="req">*</span><span class="en">CR number</span></label><input id="cr" name="cr" type="text" required class="ltr" placeholder="1234567" inputmode="numeric" pattern="[0-9]{5,12}"><div class="msg">رقم السجل أرقام فقط</div></div><div class="fld"><label class="f" for="cr_exp">تاريخ انتهاء السجل<span class="req">*</span><span class="en">CR expiry date</span></label><input id="cr_exp" name="cr_exp" type="date" required placeholder="" ><div class="msg">السجل لازم يكون ساري</div></div><div class="fld full"><label class="f">الشكل القانوني<span class="req">*</span><span class="en">Legal form</span></label><div class="radios" data-group="biz_type"><label class="radio"><input type="radio" name="biz_type" value="مؤسسة فردية" required><span><b>مؤسسة فردية</b>Sole establishment</span></label><label class="radio"><input type="radio" name="biz_type" value="شركة الشخص الواحد"><span><b>شركة الشخص الواحد</b>SPC · ش.ش.و</span></label><label class="radio"><input type="radio" name="biz_type" value="شركة محدودة المسؤولية"><span><b>شركة محدودة المسؤولية</b>LLC · ش.م.م</span></label><label class="radio"><input type="radio" name="biz_type" value="شركة مساهمة"><span><b>شركة مساهمة</b>SAOC / SAOG</span></label><label class="radio"><input type="radio" name="biz_type" value="مشروع منزلي / أسرة منتجة"><span><b>مشروع منزلي / أسرة منتجة</b>Home business</span></label><label class="radio"><input type="radio" name="biz_type" value="أخرى" data-other-trigger="biz_type"><span><b>أخرى</b>حدّد</span></label></div><div class="msg">اختر إجابة</div><div class="other" data-other="biz_type" hidden><input type="text" name="biz_type_other" placeholder="اكتب هنا" required><div class="msg">حدّد إجابتك</div></div></div><div class="fld full"><label class="f">طبيعة النشاط<span class="req">*</span><span class="en">Nature of business</span></label><div class="radios" data-group="activity"><label class="radio"><input type="radio" name="activity" value="صناعي" required><span><b>صناعي</b>مصنع أو ورشة إنتاج</span></label><label class="radio"><input type="radio" name="activity" value="تجاري"><span><b>تجاري</b>بيع وتوزيع منتجات</span></label><label class="radio"><input type="radio" name="activity" value="حِرفي"><span><b>حِرفي</b>منتجات يدوية</span></label><label class="radio"><input type="radio" name="activity" value="زراعي / سمكي"><span><b>زراعي / سمكي</b>مزارع ومنتجات طبيعية</span></label><label class="radio"><input type="radio" name="activity" value="خدمي"><span><b>خدمي</b>تقديم خدمات</span></label></div><div class="msg">اختر إجابة</div></div><div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="sec-t">الموقع<small>Location</small></span></div><div class="fld"><label class="f" for="gov">المحافظة<span class="req">*</span><span class="en">Governorate</span></label><select id="gov" name="gov" required><option value="">اختر</option><option>مسقط</option><option>ظفار</option><option>مسندم</option><option>البريمي</option><option>الداخلية</option><option>شمال الباطنة</option><option>جنوب الباطنة</option><option>شمال الشرقية</option><option>جنوب الشرقية</option><option>الظاهرة</option><option>الوسطى</option></select><div class="msg">اختر المحافظة</div></div><div class="fld"><label class="f" for="wilaya">الولاية<span class="req">*</span><span class="en">Wilayat</span></label><select id="wilaya" name="wilaya" required><option value="">اختر المحافظة أولًا</option></select><div class="msg">اختر الولاية</div></div><div class="fld full"><label class="f" for="location">موقع استلام الطلبات<span class="en">Pickup location (Google Maps link)</span></label><input id="location" name="location" type="url" class="ltr" placeholder="https://maps.app.goo.gl/..." ><div class="hint">اختياري: المكان اللي يستلم منه مندوب التوصيل الطلبات.</div><div class="msg">الرابط غير صحيح</div></div></div></fieldset>
+<fieldset data-step="2"><legend>المسؤول والتواصل <span class="en">Contact person</span></legend><p class="sub">الشخص اللي بنتواصل معه بخصوص الانضمام والعقد.</p><div class="grid"><div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></span><span class="sec-t">المعلومات الشخصية<small>Personal information</small></span></div><div class="fld full"><label class="f" for="name">الاسم الكامل<span class="req">*</span><span class="en">Full name</span></label><input id="name" name="name" type="text" required placeholder="" autocomplete="name"><div class="msg">اكتب الاسم الكامل</div></div><div class="fld full"><label class="f">صفتك في المنشأة<span class="req">*</span><span class="en">Your role</span></label><div class="radios" data-group="role"><label class="radio"><input type="radio" name="role" value="المؤسس / المالك" required><span><b>المؤسس / المالك</b>Founder / Owner</span></label><label class="radio"><input type="radio" name="role" value="شريك"><span><b>شريك</b>Partner</span></label><label class="radio"><input type="radio" name="role" value="الرئيس التنفيذي"><span><b>الرئيس التنفيذي</b>CEO</span></label><label class="radio"><input type="radio" name="role" value="المدير العام"><span><b>المدير العام</b>General Manager</span></label><label class="radio"><input type="radio" name="role" value="مدير المبيعات أو التسويق"><span><b>مدير المبيعات أو التسويق</b>Sales / Marketing</span></label><label class="radio"><input type="radio" name="role" value="خدمة العملاء"><span><b>خدمة العملاء</b>Customer service</span></label><label class="radio"><input type="radio" name="role" value="المالية والمحاسبة"><span><b>المالية والمحاسبة</b>Finance</span></label><label class="radio"><input type="radio" name="role" value="موظف"><span><b>موظف</b>Employee</span></label><label class="radio"><input type="radio" name="role" value="أخرى" data-other-trigger="role"><span><b>أخرى</b>حدّد</span></label></div><div class="msg">اختر صفتك</div><div class="other" data-other="role" hidden><input type="text" name="role_other" placeholder="اكتب هنا" required><div class="msg">حدّد إجابتك</div></div></div><div class="fld full"><label class="f">هل أنت المفوض بالتوقيع؟<span class="req">*</span><span class="en">Authorised signatory?</span></label><div class="radios" data-group="signatory" style="grid-template-columns:1fr 1fr"><label class="radio"><input type="radio" name="signatory" value="نعم" required><span><b>نعم</b>Yes</span></label><label class="radio"><input type="radio" name="signatory" value="لا"><span><b>لا</b>No</span></label></div><div class="msg">اختر إجابة</div></div><div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><span class="sec-t">بيانات التواصل<small>Contact details</small></span></div><div class="fld"><label class="f" for="mobile">رقم الجوال<span class="req">*</span><span class="en">Mobile</span></label><div class="phone"><span>+968</span><input id="mobile" name="mobile" type="tel" inputmode="numeric" required pattern="[279][0-9]{7}" maxlength="8" placeholder="9XXXXXXX"></div><div class="msg">رقم عماني من 8 أرقام</div></div><div class="fld"><label class="f" for="whatsapp">رقم الواتساب<span class="en">WhatsApp (if different)</span></label><div class="phone"><span>+968</span><input id="whatsapp" name="whatsapp" type="tel" inputmode="numeric" pattern="[279][0-9]{7}" maxlength="8" placeholder="9XXXXXXX"></div><div class="msg">رقم عماني من 8 أرقام</div></div><div class="fld full"><label class="f" for="email">البريد الإلكتروني<span class="req">*</span><span class="en">Email</span></label><input id="email" name="email" type="email" required class="ltr" placeholder="name@company.om" autocomplete="email"><div class="hint">نرسل لك عليه تأكيد التسجيل.</div><div class="msg">البريد الإلكتروني غير صحيح</div></div><div class="fld full"><label class="f">طريقة التواصل المفضلة<span class="req">*</span><span class="en">Preferred contact</span></label><div class="radios" data-group="contact_pref" style="grid-template-columns:repeat(3,1fr)"><label class="radio"><input type="radio" name="contact_pref" value="واتساب" required><span><b>واتساب</b>WhatsApp</span></label><label class="radio"><input type="radio" name="contact_pref" value="اتصال"><span><b>اتصال</b>Call</span></label><label class="radio"><input type="radio" name="contact_pref" value="إيميل"><span><b>إيميل</b>Email</span></label></div><div class="msg">اختر إجابة</div></div></div></fieldset>
+<fieldset data-step="3"><legend>المنتجات والهوية <span class="en">Products & brand</span></legend><p class="sub">عشان نجهز لك القسم المناسب في مارناس.</p><div class="grid"><div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg></span><span class="sec-t">المنتجات والمجال<small>Products & sector</small></span></div><div class="fld full"><label class="f">مجال منتجاتك<span class="req">*</span><span class="en">Product sector (choose all that apply)</span></label><div class="hint" style="margin:-2px 0 8px">مبنية على تصنيف الأنشطة الاقتصادية المعتمد (ISIC). تقدر تختار أكثر من مجال.</div><div class="chips" data-group="cats"><label class="chip"><input type="checkbox" name="cats" value="المواد الغذائية والمشروبات"><span>المواد الغذائية والمشروبات</span></label><label class="chip"><input type="checkbox" name="cats" value="التمور والعسل"><span>التمور والعسل</span></label><label class="chip"><input type="checkbox" name="cats" value="الأسماك والمنتجات البحرية"><span>الأسماك والمنتجات البحرية</span></label><label class="chip"><input type="checkbox" name="cats" value="المنتجات الزراعية والنباتات"><span>المنتجات الزراعية والنباتات</span></label><label class="chip"><input type="checkbox" name="cats" value="اللبان والبخور والعطور"><span>اللبان والبخور والعطور</span></label><label class="chip"><input type="checkbox" name="cats" value="مستحضرات التجميل والعناية"><span>مستحضرات التجميل والعناية</span></label><label class="chip"><input type="checkbox" name="cats" value="المنظفات والمواد الكيميائية"><span>المنظفات والمواد الكيميائية</span></label><label class="chip"><input type="checkbox" name="cats" value="الملابس والمنسوجات"><span>الملابس والمنسوجات</span></label><label class="chip"><input type="checkbox" name="cats" value="الأحذية والمنتجات الجلدية"><span>الأحذية والمنتجات الجلدية</span></label><label class="chip"><input type="checkbox" name="cats" value="الذهب والمجوهرات والإكسسوارات"><span>الذهب والمجوهرات والإكسسوارات</span></label><label class="chip"><input type="checkbox" name="cats" value="الأثاث والمنتجات الخشبية"><span>الأثاث والمنتجات الخشبية</span></label><label class="chip"><input type="checkbox" name="cats" value="الأدوات المنزلية والمطبخ"><span>الأدوات المنزلية والمطبخ</span></label><label class="chip"><input type="checkbox" name="cats" value="الورق والتغليف والطباعة"><span>الورق والتغليف والطباعة</span></label><label class="chip"><input type="checkbox" name="cats" value="البلاستيك والمطاط"><span>البلاستيك والمطاط</span></label><label class="chip"><input type="checkbox" name="cats" value="مواد البناء والأدوات"><span>مواد البناء والأدوات</span></label><label class="chip"><input type="checkbox" name="cats" value="الإلكترونيات والأجهزة"><span>الإلكترونيات والأجهزة</span></label><label class="chip"><input type="checkbox" name="cats" value="المستلزمات الطبية والصحية"><span>المستلزمات الطبية والصحية</span></label><label class="chip"><input type="checkbox" name="cats" value="الحرف اليدوية والهدايا"><span>الحرف اليدوية والهدايا</span></label><label class="chip"><input type="checkbox" name="cats" value="ألعاب ومستلزمات الأطفال"><span>ألعاب ومستلزمات الأطفال</span></label><label class="chip"><input type="checkbox" name="cats" value="الكتب والقرطاسية"><span>الكتب والقرطاسية</span></label><label class="chip"><input type="checkbox" name="cats" value="أخرى" data-other-trigger="cats"><span>أخرى (حدّد)</span></label></div><div class="msg">اختر واحد على الأقل</div><div class="other" data-other="cats" hidden><input type="text" name="cats_other" placeholder="اكتب هنا" required><div class="msg">حدّد إجابتك</div></div></div><div class="fld"><label class="f" for="count">عدد المنتجات تقريبًا<span class="req">*</span><span class="en">Number of products</span></label><select id="count" name="count" required><option value="">اختر</option><option>أقل من 10</option><option>10 إلى 50</option><option>51 إلى 200</option><option>أكثر من 200</option></select><div class="msg">اختر عدد المنتجات</div></div><div class="fld"><label class="f" for="price_range">متوسط أسعار منتجاتك<span class="req">*</span><span class="en">Average price</span></label><select id="price_range" name="price_range" required><option value="">اختر</option><option>أقل من 5 ر.ع</option><option>5 إلى 20 ر.ع</option><option>20 إلى 50 ر.ع</option><option>أكثر من 50 ر.ع</option></select><div class="msg">اختر متوسط السعر</div></div><div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 7H6"/></svg></span><span class="sec-t">البيع حاليًا<small>Current sales channels</small></span></div><div class="fld full"><label class="f">وين تبيع منتجاتك حاليًا؟<span class="req">*</span><span class="en">Where do you sell now?</span></label><div class="chips" data-group="online"><label class="chip"><input type="checkbox" name="online" value="محل أو معرض"><span>محل أو معرض</span></label><label class="chip"><input type="checkbox" name="online" value="إنستقرام"><span>إنستقرام</span></label><label class="chip"><input type="checkbox" name="online" value="واتساب"><span>واتساب</span></label><label class="chip"><input type="checkbox" name="online" value="متجر إلكتروني خاص"><span>متجر إلكتروني خاص</span></label><label class="chip"><input type="checkbox" name="online" value="منصات توصيل أو تسوق"><span>منصات توصيل أو تسوق</span></label><label class="chip"><input type="checkbox" name="online" value="المعارض والفعاليات"><span>المعارض والفعاليات</span></label><label class="chip"><input type="checkbox" name="online" value="ما بدأت البيع بعد"><span>ما بدأت البيع بعد</span></label><label class="chip"><input type="checkbox" name="online" value="أخرى" data-other-trigger="online"><span>أخرى (حدّد)</span></label></div><div class="msg">اختر واحد على الأقل</div><div class="other" data-other="online" hidden><input type="text" name="online_other" placeholder="اكتب هنا" required><div class="msg">حدّد إجابتك</div></div></div><div class="fld"><label class="f" for="instagram">حساب إنستقرام<span class="en">Instagram</span></label><input id="instagram" name="instagram" type="text" class="ltr" placeholder="@yourshop" ><div class="msg">هذا الحقل مطلوب</div></div><div class="fld"><label class="f" for="website_url">الموقع أو رابط آخر<span class="en">Website / other link</span></label><input id="website_url" name="website_url" type="url" class="ltr" placeholder="https://" ><div class="msg">الرابط غير صحيح</div></div><div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg></span><span class="sec-t">الهوية والمستندات<small>Brand & documents</small></span></div><div class="fld full" data-file="logo" data-required="1"><label class="f">شعار الشركة<span class="req">*</span><span class="en">Company logo (PNG, SVG, JPG or PDF)</span></label><label class="drop"><div class="ic" data-thumb><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg></div><div><b>ارفع الشعار بجودة عالية</b><div class="hint" style="margin:0">يفضّل PNG بخلفية شفافة أو SVG، ولا يقل عن 500×500 بكسل، وأقصى حجم 5 ميجا</div><div class="fn"></div></div><input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp,application/pdf,.svg,.ai,.eps"></label><div class="msg">ارفع شعار الشركة بصيغة واضحة</div></div><div class="fld full" data-file="cr_file"><label class="f">صورة السجل التجاري<span class="en">Commercial registration (optional)</span></label><label class="drop"><div class="ic" data-thumb><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg></div><div><b>ارفع الملف</b><div class="hint" style="margin:0">اختياري، يسرّع مراجعة طلبك. PDF أو صورة، أقصى حجم 5 ميجا</div><div class="fn"></div></div><input type="file" accept="application/pdf,image/*"></label><div class="msg">الملف أكبر من 5 ميجا</div></div><div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span><span class="sec-t">معلومات إضافية<small>Additional information</small></span></div><div class="fld"><label class="f" for="heard">كيف عرفت عن مارناس؟<span class="en">How did you hear about us?</span></label><select id="heard" name="heard" data-has-other="heard"><option value="">اختر</option><option>إنستقرام</option><option>تيك توك</option><option>سناب شات</option><option>إكس (تويتر)</option><option>لينكدإن</option><option>واتساب</option><option>صديق أو تاجر آخر</option><option>تواصل معي فريق مارناس</option><option>معرض أو فعالية</option><option value="أخرى">أخرى (حدّد)</option></select><div class="msg">اختر من القائمة</div><div class="other" data-other="heard" hidden><input type="text" name="heard_other" placeholder="اكتب هنا" required><div class="msg">حدّد إجابتك</div></div></div><div class="fld full"><label class="f" for="notes">ملاحظات أو أسئلة<span class="en">Notes (optional)</span></label><textarea id="notes" name="notes" placeholder="أي شي تحب تضيفه..."></textarea></div></div></fieldset>
 
       <!-- STEP 4 -->
       <fieldset data-step="4">
         <legend>عقد الانضمام والإرسال <span class="en">Agreement & submit</span></legend>
         <p class="sub">اقرأ عقد انضمام التجار كاملًا قبل الموافقة. بعد قراءته للنهاية ينفتح لك خيار الموافقة.</p>
+        <div class="sec full"><span class="sec-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg></span><span class="sec-t">عقد الانضمام<small>Merchant agreement</small></span></div>
 
         <div class="contract-box">
           <div class="row">
@@ -441,9 +291,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--g);background:#fff;bo
       <p class="l">استلمنا طلب انضمام <b id="tBiz"></b> بنجاح. أرسلنا تأكيدًا إلى بريدك الإلكتروني، وفريق مارناس بيتواصل معك قريب.</p>
       <div class="ref"><small>رقم الطلب</small><b id="tRef"></b></div>
       <div class="next">
-        <div><div class="n">1</div><b>مراجعة الطلب</b><span>نراجع بياناتك خلال 3 أيام عمل.</span></div>
-        <div><div class="n">2</div><b>توقيع العقد</b><span>نتواصل معك لتوقيع العقد واستكمال المستندات.</span></div>
-        <div><div class="n">3</div><b>إضافة منتجاتك</b><span>نفتح لك متجرك في مارناس وتبدأ تستقبل الطلبات.</span></div>
+        <div><div class="n"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><i>1</i></div><b>مراجعة الطلب</b><span>نراجع بياناتك خلال 3 أيام عمل.</span></div>
+        <div><div class="n"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><i>2</i></div><b>توقيع العقد</b><span>نتواصل معك لتوقيع العقد واستكمال المستندات.</span></div>
+        <div><div class="n"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg><i>3</i></div><b>إضافة منتجاتك</b><span>نفتح لك متجرك في مارناس وتبدأ تستقبل الطلبات.</span></div>
       </div>
       <div class="thanks-cta">
         <a class="btn pri" href="https://marnas.om">زيارة marnas.om</a>
@@ -582,6 +432,21 @@ let step = 1, contractRead = false, readAt = null; const files = {};
 $('#cv').textContent = CONTRACT_VERSION;
 if (!SCRIPT_URL) $('#demoBar').hidden = false;
 
+// wilayat by governorate
+const WILAYAT = {"مسقط": ["مسقط", "مطرح", "بوشر", "السيب", "العامرات", "قريات"], "ظفار": ["صلالة", "طاقة", "مرباط", "رخيوت", "ثمريت", "ضلكوت", "المزيونة", "مقشن", "شليم وجزر الحلانيات", "سدح"], "مسندم": ["خصب", "دبا", "بخا", "مدحاء"], "البريمي": ["البريمي", "محضة", "السنينة"], "الداخلية": ["نزوى", "بهلاء", "منح", "الحمراء", "أدم", "إزكي", "سمائل", "بدبد", "الجبل الأخضر"], "شمال الباطنة": ["صحار", "شناص", "لوى", "صحم", "الخابورة", "السويق"], "جنوب الباطنة": ["الرستاق", "العوابي", "نخل", "وادي المعاول", "بركاء", "المصنعة"], "شمال الشرقية": ["إبراء", "المضيبي", "بدية", "القابل", "وادي بني خالد", "دماء والطائيين"], "جنوب الشرقية": ["صور", "الكامل والوافي", "جعلان بني بو حسن", "جعلان بني بو علي", "مصيرة"], "الظاهرة": ["عبري", "ينقل", "ضنك"], "الوسطى": ["هيماء", "محوت", "الدقم", "الجازر"]};
+$('#gov').addEventListener('change', () => {
+  const w = $('#wilaya'), list = WILAYAT[$('#gov').value] || [];
+  w.innerHTML = '<option value="">' + (list.length ? 'اختر الولاية' : 'اختر المحافظة أولًا') + '</option>' + list.map(x => '<option>' + x + '</option>').join('');
+});
+// "other" boxes
+function syncOther(name){
+  const box = document.querySelector('.other[data-other="' + name + '"]'); if (!box) return;
+  const sel = document.querySelector('select[data-has-other="' + name + '"]');
+  const show = sel ? sel.value === 'أخرى' : !!document.querySelector('input[data-other-trigger="' + name + '"]:checked');
+  box.hidden = !show; if (!show) box.classList.remove('bad');
+  if (show && document.activeElement && document.activeElement.closest('.fld') === box.closest('.fld')) setTimeout(() => box.querySelector('input').focus(), 50);
+}
+form.addEventListener('change', e => { const n = e.target.dataset.hasOther || e.target.name; if (n) syncOther(n); });
 // min date for CR expiry = today
 $('#cr_exp').min = new Date().toISOString().slice(0,10);
 
@@ -607,6 +472,8 @@ function fieldOk(el){
 function validate(n){
   const fs = sets[n-1]; let first = null;
   fs.querySelectorAll('input[type=text],input[type=email],input[type=tel],input[type=url],input[type=date],select,textarea').forEach(el=>{
+    const ob = el.closest('.other');
+    if (ob) { if (ob.hidden) return; const ok = !!el.value.trim(); ob.classList.toggle('bad', !ok); if(!ok && !first) first = el; return; }
     const ok = fieldOk(el); el.closest('.fld')?.classList.toggle('bad', !ok); if(!ok && !first) first = el;
   });
   fs.querySelectorAll('[data-group]').forEach(g=>{
@@ -625,7 +492,7 @@ function validate(n){
   if (first){ first.focus({preventScroll:true}); first.closest('.fld')?.scrollIntoView({behavior:'smooth',block:'center'}); }
   return !first;
 }
-form.addEventListener('input', e => { const f = e.target.closest('.fld'); if (f && f.classList.contains('bad')) { const el=e.target; if (el.closest('[data-group]') ? true : fieldOk(el)) f.classList.remove('bad'); }});
+form.addEventListener('input', e => { const ob = e.target.closest('.other'); if (ob && e.target.value.trim()) ob.classList.remove('bad'); const f = e.target.closest('.fld'); if (f && f.classList.contains('bad')) { const el=e.target; if (el.closest('[data-group]') ? true : fieldOk(el)) f.classList.remove('bad'); }});
 form.addEventListener('change', e => { const g = e.target.closest('[data-group]'); if (g && g.querySelector('input:checked')) g.closest('.fld').classList.remove('bad'); });
 $('#mobile').addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g,''));
 $('#whatsapp').addEventListener('input', e => e.target.value = e.target.value.replace(/\D/g,''));
@@ -694,10 +561,15 @@ form.addEventListener('submit', async e => {
   if (!validate(4)) return;
   const fd = new FormData(form);
   if (fd.get('website')) return; // bot
-  const data = Object.fromEntries([...fd.entries()].filter(([k])=>k!=='cats'&&k!=='website'));
-  data.cats = fd.getAll('cats').join('، ');
+  const data = {};
+  for (const k of new Set(fd.keys())) {
+    if (k === 'website' || k.endsWith('_other')) continue;
+    const vals = fd.getAll(k).filter(v => typeof v === 'string').map(v => { const o = fd.get(k + '_other'); return v === 'أخرى' && o ? 'أخرى: ' + o.trim() : v; });
+    data[k] = vals.join('، ');
+  }
   data.mobile = '+968' + data.mobile;
   data.whatsapp = data.whatsapp ? '+968' + data.whatsapp : data.mobile;
+  data.agree = 'on';
   data.ref = makeRef();
   data.contract_version = CONTRACT_VERSION;
   data.contract_read_at = readAt && readAt.toISOString();
